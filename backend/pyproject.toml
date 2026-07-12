@@ -1,0 +1,17 @@
+[project]
+name = "insightforge-ai-backend"
+version = "0.1.0"
+description = "AI-Powered Business Intelligence & Analytics Platform"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi>=0.116.0",
+    "uvicorn[standard]>=0.35.0",
+    "pydantic-settings>=2.10.1",
+    "python-multipart>=0.0.20",
+    "pandas>=2.3.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
