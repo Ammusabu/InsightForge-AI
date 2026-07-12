@@ -3,6 +3,7 @@ import shutil
 
 import pandas as pd
 from fastapi import HTTPException, UploadFile
+from app.common.dataset_registry import generate_dataset_id
 
 # Project root (InsightForge-AI)
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -35,11 +36,14 @@ def upload_csv(file: UploadFile) -> dict:
 
     dataframe = pd.read_csv(file_path)
 
+    dataset_id = generate_dataset_id()
+
     return {
-        "filename": file.filename,
-        "saved_path": str(file_path.relative_to(PROJECT_ROOT)),
-        "rows": len(dataframe),
-        "columns": len(dataframe.columns),
-        "column_names": dataframe.columns.tolist(),
-        "size_kb": round(file_path.stat().st_size / 1024, 2),
-    }
+    "dataset_id": dataset_id,
+    "filename": file.filename,
+    "saved_path": str(file_path.relative_to(PROJECT_ROOT)),
+    "rows": len(dataframe),
+    "columns": len(dataframe.columns),
+    "column_names": dataframe.columns.tolist(),
+    "size_kb": round(file_path.stat().st_size / 1024, 2),
+}
