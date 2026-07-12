@@ -4,6 +4,7 @@ import shutil
 import pandas as pd
 from fastapi import HTTPException, UploadFile
 from app.common.dataset_registry import generate_dataset_id
+from app.analytics.profiler import profile_dataset
 
 # Project root (InsightForge-AI)
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -35,6 +36,7 @@ def upload_csv(file: UploadFile) -> dict:
         shutil.copyfileobj(file.file, buffer)
 
     dataframe = pd.read_csv(file_path)
+    profile = profile_dataset(dataframe)
 
     dataset_id = generate_dataset_id()
 
@@ -42,8 +44,5 @@ def upload_csv(file: UploadFile) -> dict:
     "dataset_id": dataset_id,
     "filename": file.filename,
     "saved_path": str(file_path.relative_to(PROJECT_ROOT)),
-    "rows": len(dataframe),
-    "columns": len(dataframe.columns),
-    "column_names": dataframe.columns.tolist(),
-    "size_kb": round(file_path.stat().st_size / 1024, 2),
+    "profile": profile,
 }
