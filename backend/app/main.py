@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.api.v1.health import router as health_router
 from app.api.v1.upload import router as upload_router
 from app.core.config import settings
+from app.api.v1.datasets import router as datasets_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -27,5 +28,10 @@ app.include_router(
 
 app.include_router(
     upload_router,
+    prefix="/api/v1",
+)
+
+app.include_router(
+    datasets_router,
     prefix="/api/v1",
 )
