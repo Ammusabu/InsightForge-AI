@@ -17,10 +17,11 @@ def list_datasets() -> list:
             profile = json.load(f)
 
         datasets.append(
-            {
-                "dataset_id": file.stem,
-                "profile": profile,
-            }
-        )
+    {
+        "dataset_id": file.stem,
+        "filename": profile.get("filename", file.stem),
+        "profile": profile,
+    }
+)
 
     return datasets

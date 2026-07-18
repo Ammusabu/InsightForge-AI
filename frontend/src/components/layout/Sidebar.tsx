@@ -1,57 +1,182 @@
 import { useEffect, useState } from "react";
-
+import { Trash2 } from "lucide-react";
 import DatasetItem from "../dashboard/DatasetItem";
+import UploadButton from "../upload/UploadButton";
+
 import { getDatasets } from "../../services/datasetService";
+import { uploadDataset } from "../../services/uploadService";
+import { deleteDataset } from "../../services/deleteDatasetService";
+import { useDataset } from "../../context/DatasetContext";
+import SidebarSection from "./SidebarSection";
+import SidebarItem from "./SidebarItem";
 
 interface Dataset {
-  dataset_id: string;
-  filename: string;
+    dataset_id: string;
+    filename: string;
 }
 
 export default function Sidebar() {
-  const [datasets, setDatasets] = useState<Dataset[]>([]);
+    const [datasets, setDatasets] = useState<Dataset[]>([]);
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const response = await getDatasets();
-        setDatasets(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    const {
+        selectedDatasetId,
+        setSelectedDatasetId,
+    } = useDataset();
+
+    async function loadDatasets() {
+        try {
+            const response = await getDatasets();
+            setDatasets(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    load();
-  }, []);
+    useEffect(() => {
+        loadDatasets();
+    }, []);
 
-  return (
-    <aside className="w-72 border-r border-slate-700 bg-slate-900 p-6">
-      <h2 className="mb-6 text-lg font-semibold">
-        Datasets
-      </h2>
+    async function handleUpload(file: File) {
+        try {
+            await uploadDataset(file);
+            await loadDatasets();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    async function handleDelete(datasetId: string) {
 
-      <button
-        className="
-        mb-6
-        w-full
-        rounded-lg
-        bg-blue-600
-        py-3
-        font-medium
-        hover:bg-blue-500
-        "
-      >
-        + Upload Dataset
-      </button>
+        const confirmed = window.confirm(
+            "Delete this dataset?"
+        );
+    
+        if (!confirmed) return;
+    
+        try {
+    
+            await deleteDataset(datasetId);
+    
+            if (selectedDatasetId === datasetId) {
+                setSelectedDatasetId(null);
+            }
+    
+            await loadDatasets();
+    
+        } catch (error) {
+    
+            console.error(error);
+    
+            alert("Failed to delete dataset.");
+    
+        }
+    
+    }
+    return (
+        <aside className="flex h-screen w-72 flex-col border-r border-slate-700 bg-slate-900 p-6">
 
-      <div className="space-y-3">
-        {datasets.map((dataset) => (
-          <DatasetItem
-            key={dataset.dataset_id}
-            name={dataset.filename}
-          />
-        ))}
-      </div>
-    </aside>
-  );
+            <h1 className="mb-8 text-2xl font-bold text-white">
+                InsightForge AI
+            </h1>
+
+            {/* Navigation */}
+
+            <div className="mb-8">
+
+               <SidebarSection title="Main">
+
+            <SidebarItem
+            icon="🏠"
+            label="Dashboard"
+            to="/"
+        />
+
+        <SidebarItem
+            icon="📊"
+            label="Analytics"
+            to="/analytics"
+        />
+
+        <SidebarItem
+            icon="📈"
+            label="Forecast"
+            to="/forecast"
+        />
+
+        <SidebarItem
+            icon="📄"
+            label="Reports"
+            to="/reports"
+        />
+
+    </SidebarSection>
+
+</div>
+
+
+            {/* Dataset Section */}
+            <div className="mb-4 flex items-center justify-between">
+
+<h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+    Datasets
+</h2>
+
+<span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
+    {datasets.length}
+</span>
+
+</div>
+
+            <UploadButton onSelect={handleUpload} />
+
+            <div className="mt-6 flex-1 space-y-3 overflow-y-auto">
+
+            {datasets.map((dataset) => (
+
+<div
+    key={dataset.dataset_id}
+    className="flex items-center gap-2"
+>
+
+    <div
+        className="flex-1 cursor-pointer"
+        onClick={() =>
+            setSelectedDatasetId(dataset.dataset_id)
+        }
+    >
+
+        <div
+            className={
+                selectedDatasetId === dataset.dataset_id
+                    ? "rounded-lg ring-2 ring-blue-500"
+                    : ""
+            }
+        >
+
+            <DatasetItem
+                name={dataset.filename}
+            />
+
+        </div>
+
+    </div>
+
+    <button
+        onClick={() =>
+            handleDelete(dataset.dataset_id)
+        }
+        className="rounded-lg p-2 text-red-400 hover:bg-slate-800"
+    >
+
+        <Trash2 size={18} />
+
+    </button>
+
+</div>
+
+))}
+
+            </div>
+
+        </aside>
+    );
 }

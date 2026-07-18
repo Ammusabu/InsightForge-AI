@@ -7,10 +7,16 @@ PROFILE_DIR = PROJECT_ROOT / "datasets" / "profiles"
 PROFILE_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def save_profile(dataset_id: str, profile: dict) -> str:
+def save_profile(
+    dataset_id: str,
+    filename: str,
+    profile: dict,
+) -> str:
     """
     Save dataset profile as JSON.
     """
+
+    profile["filename"] = filename
 
     profile_path = PROFILE_DIR / f"{dataset_id}.json"
 

@@ -40,9 +40,10 @@ def process_dataset(
     profile = profile_dataset(cleaned_dataframe)
 
     profile_path = save_profile(
-        dataset_id,
-        profile,
-    )
+    dataset_id,
+    filename,
+    profile,
+)
 
     return {
         "processed_dataset": str(
