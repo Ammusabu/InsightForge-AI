@@ -22,9 +22,7 @@ useEffect(() => {
 
         try {
 
-            const data =
-                await getAnalytics(selectedDatasetId);
-
+            const data = await getAnalytics(selectedDatasetId!);
             setAnalytics(data);
 
         } catch (error) {

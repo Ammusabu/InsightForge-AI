@@ -10,10 +10,9 @@ interface DatasetContextType {
     setSelectedDatasetId: (id: string | null) => void;
 }
 
-const DatasetContext =
-    createContext<DatasetContextType | undefined>(
-        undefined
-    );
+const DatasetContext = createContext<DatasetContextType | undefined>(
+    undefined
+);
 
 export function DatasetProvider({
     children,

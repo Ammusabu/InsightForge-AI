@@ -35,10 +35,9 @@ export default function FilterBar() {
 
                 console.log("Calling Filters API...");
 
-const data =
-    await getFilterOptions(
-        selectedDatasetId
-    );
+                const data = await getFilterOptions(
+                    selectedDatasetId!
+                );
 
     console.log("Categories:", data.categories);
     console.log("Countries:", data.countries);

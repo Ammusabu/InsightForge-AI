@@ -4,12 +4,10 @@ import AppLayout from "../components/layout/AppLayout";
 import Hero from "../components/home/Hero";
 import QuickActions from "../components/home/QuickActions";
 import RecentActivity from "../components/home/RecentActivity";
-import AIAssistantCard from "../components/home/AIAssistantCard";
 
 import KpiCard from "../components/dashboard/KpiCard";
 import LineChartCard from "../components/charts/LineChartCard";
 import BarChartCard from "../components/charts/BarChartCard";
-import DatasetPreview from "../components/dataset/DatasetPreview";
 import AnalyticsCard from "../components/analytics/AnalyticsCard";
 import InsightCard from "../components/insights/InsightCard";
 
@@ -47,7 +45,7 @@ export default function Dashboard() {
         columns: 0,
     });
 
-const [dataset, setDataset] =
+    const [, setDataset] = 
     useState<DatasetDetail | null>(null);
 
 const [analytics, setAnalytics] =
@@ -115,11 +113,11 @@ const { selectedDatasetId } =
                     barData,
                     insightsData,
                 ] = await Promise.all([
-                    getDataset(selectedDatasetId),
-                    getAnalytics(selectedDatasetId),
-                    getLineChart(selectedDatasetId),
-                    getBarChart(selectedDatasetId),
-                    getInsights(selectedDatasetId),
+                    getDataset(selectedDatasetId!),
+                    getAnalytics(selectedDatasetId!),
+                    getLineChart(selectedDatasetId!),
+                    getBarChart(selectedDatasetId!),
+                    getInsights(selectedDatasetId!),
                 ]);
     
                 setDataset(datasetData);

@@ -179,39 +179,4 @@ function Section({
 
 }
 
-function ListSection({
-    title,
-    items,
-}: {
-    title: string;
-    items: string[];
-}) {
 
-    return (
-
-        <div className="rounded-2xl bg-slate-800 p-6 shadow-lg">
-
-            <h2 className="mb-4 text-2xl font-bold text-white">
-                {title}
-            </h2>
-
-            <ul className="space-y-3">
-
-                {(items ?? []).map((item, index) => (
-
-                    <li
-                        key={index}
-                        className="rounded-lg bg-slate-900 p-4 text-slate-300"
-                    >
-                        • {item}
-                    </li>
-
-                ))}
-
-            </ul>
-
-        </div>
-
-    );
-
-}

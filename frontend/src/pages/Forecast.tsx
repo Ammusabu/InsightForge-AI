@@ -31,17 +31,16 @@ useEffect(() => {
 
         try {
 
-            const analytics =
-                await getAnalytics(selectedDatasetId);
-
+            if (!selectedDatasetId) return;
+        
+            const analytics = await getAnalytics(selectedDatasetId);
+        
             setNumericColumns(
                 analytics.numeric_columns
             );
-
+        
         } catch (error) {
-
             console.error(error);
-
         }
 
     }

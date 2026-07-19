@@ -44,7 +44,7 @@ export default function PdfReport({ report }: PdfReportProps) {
 
         <div className="grid grid-cols-3 gap-5">
 
-        {report.business_insights.map((item, index) => (
+        {report.recommendations.map((item: any, index: number) => (
     <div key={index}>
         <h3>{item.title}</h3>
         <p>{item.description}</p>

@@ -1,23 +1,20 @@
-import { useState } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 
 interface GenerateReportButtonProps {
     onGenerate: () => Promise<void>;
+    loading: boolean;
 }
 
 export default function GenerateReportButton({
     onGenerate,
+    loading,
 }: GenerateReportButtonProps) {
-    const [loading, setLoading] = useState(false);
 
     async function handleClick() {
         try {
-            setLoading(true);
             await onGenerate();
         } catch (error) {
             console.error(error);
-        } finally {
-            setLoading(false);
         }
     }
 

@@ -460,7 +460,6 @@ function drawKpiCard(
 /** Renders the full KPI grid (Rows, Columns, Memory, Missing, Duplicates, Quality Score) */
 function drawKpiSection(ctx: PdfContext, report: ReportData): void {
 
-    const stats = report.key_statistics;
     const quality = report.dataset_quality;
 
     const kpis = [
