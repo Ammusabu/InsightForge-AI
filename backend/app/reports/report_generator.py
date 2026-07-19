@@ -44,50 +44,6 @@ def generate_report(dataframe):
     )
 
     # -----------------------------
-    # Key Findings
-    # -----------------------------
-    key_findings = [
-        f"Dataset contains {rows:,} rows and {cols} columns.",
-        f"{len(numeric_cols)} numerical columns available for statistical analysis.",
-        f"{len(categorical_cols)} categorical columns available for segmentation.",
-        f"{len(datetime_cols)} datetime columns detected.",
-        f"Missing values detected: {missing}.",
-        f"Duplicate records detected: {duplicates}.",
-    ]
-
-    # -----------------------------
-    # Business Recommendations
-    # -----------------------------
-    recommendations = [
-        "Develop interactive dashboards to monitor key business metrics.",
-        "Leverage forecasting models to predict future trends.",
-        "Perform feature engineering before machine learning model training.",
-        "Continuously monitor data quality before decision making.",
-        "Use categorical segmentation to identify customer or regional patterns.",
-    ]
-
-    # -----------------------------
-    # Readiness Scores
-    # -----------------------------
-    ml_readiness = (
-        "Excellent"
-        if missing == 0 and duplicates == 0
-        else "Good"
-    )
-
-    visualization_readiness = (
-        "Excellent"
-        if len(numeric_cols) > 0
-        else "Moderate"
-    )
-
-    analytics_readiness = (
-        "Excellent"
-        if cols >= 5
-        else "Moderate"
-    )
-
-    # -----------------------------
     # Report
     # -----------------------------
     report = {
@@ -99,47 +55,105 @@ def generate_report(dataframe):
 
         "executive_summary": executive_summary,
 
-        "statistics": {
+        # -----------------------------
+        # Dataset Quality
+        # -----------------------------
+        "dataset_quality": {
+            "rows": rows,
+            "columns": cols,
+            "memory": memory,
+            "missing_values": missing,
+            "duplicate_rows": duplicates,
+            "quality_score": score,
+            "status": "Excellent" if score >= 90 else "Good",
+        },
+
+        # -----------------------------
+        # Key Statistics
+        # -----------------------------
+        "key_statistics": {
             "Rows": rows,
             "Columns": cols,
+            "Memory Usage": memory,
             "Missing Values": missing,
             "Duplicate Rows": duplicates,
-            "Memory (MB)": memory,
         },
 
-        "data_quality": {
-            "Overall Score": score,
-            "Missing Values": missing,
-            "Duplicate Rows": duplicates,
-            "Quality": "Excellent" if score >= 90 else "Good",
-        },
-
-        "column_summary": {
-            "Numeric Columns": numeric_cols,
-            "Categorical Columns": categorical_cols,
-            "Datetime Columns": datetime_cols,
-        },
-
-        "key_findings": key_findings,
-
-        "insights": [
-            f"The dataset contains {len(numeric_cols)} numerical attributes suitable for descriptive and predictive analytics.",
-            f"{len(categorical_cols)} categorical attributes can be used for segmentation and grouping analysis.",
-            f"The dataset occupies approximately {memory} MB in memory, making it efficient for interactive analytics.",
-            "No critical data quality issues were detected."
-            if score >= 90
-            else "Minor data quality improvements are recommended before advanced analysis.",
+        # -----------------------------
+        # Business Insights
+        # -----------------------------
+        "business_insights": [
+            {
+                "title": "Dataset Composition",
+                "description": (
+                    f"The dataset contains {len(numeric_cols)} numerical columns "
+                    "suitable for descriptive and predictive analytics."
+                ),
+            },
+            {
+                "title": "Categorical Analysis",
+                "description": (
+                    f"{len(categorical_cols)} categorical columns are available "
+                    "for segmentation and grouping analysis."
+                ),
+            },
+            {
+                "title": "Memory Usage",
+                "description": (
+                    f"The dataset occupies approximately {memory} MB in memory, "
+                    "making it efficient for interactive analytics."
+                ),
+            },
+            {
+                "title": "Data Quality",
+                "description": (
+                    "No major data quality issues were detected."
+                    if score >= 90
+                    else "Minor data quality improvements are recommended before advanced analysis."
+                ),
+            },
         ],
 
-        "recommendations": recommendations,
+        # -----------------------------
+        # Recommendations
+        # -----------------------------
+        "recommendations": [
+            {
+                "title": "Interactive Dashboards",
+                "description": "Develop interactive dashboards to monitor key business metrics.",
+                "priority": "High",
+            },
+            {
+                "title": "Forecasting",
+                "description": "Leverage forecasting models to predict future trends.",
+                "priority": "Medium",
+            },
+            {
+                "title": "Machine Learning",
+                "description": "Perform feature engineering before machine learning model training.",
+                "priority": "Medium",
+            },
+            {
+                "title": "Data Quality Monitoring",
+                "description": "Continuously monitor missing values and duplicate records before decision making.",
+                "priority": "High",
+            },
+            {
+                "title": "Business Segmentation",
+                "description": "Use categorical segmentation to identify customer or regional patterns.",
+                "priority": "Low",
+            },
+        ],
 
-        "readiness": {
-            "Machine Learning": ml_readiness,
-            "Visualization": visualization_readiness,
-            "Analytics": analytics_readiness,
-        },
-
-        "overall_score": score,
+        # -----------------------------
+        # Conclusion
+        # -----------------------------
+        "conclusion": (
+            "The uploaded dataset is ready for interactive dashboards, "
+            "business intelligence, forecasting, and machine learning. "
+            "The overall data quality is high and the dataset is suitable "
+            "for enterprise analytics workflows."
+        ),
     }
 
     return report

@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
 import Reports from "./pages/Reports";
 import Forecast from "./pages/Forecast";
-
+import PowerBI from "./pages/PowerBI";
 
 export default function App() {
     return (
@@ -27,6 +27,7 @@ export default function App() {
                     path="/forecast"
                      element={<Forecast />}
                 />
+                <Route path="/powerbi" element={<PowerBI />} />
             </Routes>
         </BrowserRouter>
     );

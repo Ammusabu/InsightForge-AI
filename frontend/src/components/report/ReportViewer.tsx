@@ -1,10 +1,30 @@
 interface Report {
     title: string;
     executive_summary: string;
-    dataset_quality: string;
-    key_statistics?: string[];
-    business_insights?: string[];
-    recommendations?: string[];
+
+    dataset_quality: {
+        rows: number;
+        columns: number;
+        memory: number;
+        missing_values: number;
+        duplicate_rows: number;
+        quality_score: number;
+        status: string;
+    };
+
+    key_statistics: Record<string, any>;
+
+    business_insights: {
+        title: string;
+        description: string;
+    }[];
+
+    recommendations: {
+        title: string;
+        description: string;
+        priority: string;
+    }[];
+
     conclusion: string;
 }
 
@@ -48,26 +68,78 @@ export default function ReportViewer({
                 {report.executive_summary}
             </Section>
 
-            <Section
-                title="🟢 Dataset Quality"
-            >
-                {report.dataset_quality}
+                <Section title="🟢 Dataset Quality">
+                <>
+                    Rows: {report.dataset_quality.rows}<br />
+                    Columns: {report.dataset_quality.columns}<br />
+                    Memory: {report.dataset_quality.memory} MB<br />
+                    Missing Values: {report.dataset_quality.missing_values}<br />
+                    Duplicate Rows: {report.dataset_quality.duplicate_rows}<br />
+                    Quality Score: {report.dataset_quality.quality_score}%<br />
+                    Status: {report.dataset_quality.status}
+                </>
             </Section>
 
-            <ListSection
-                title="📊 Key Statistics"
-                items={report.key_statistics}
-            />
+            <div className="rounded-2xl bg-slate-800 p-6 shadow-lg">
+    <h2 className="mb-4 text-2xl font-bold text-white">
+        📊 Key Statistics
+    </h2>
 
-            <ListSection
-                title="💡 Business Insights"
-                items={report.business_insights}
-            />
+    {Object.entries(report.key_statistics).map(([key, value]) => (
+        <div
+            key={key}
+            className="mb-2 rounded-lg bg-slate-900 p-3 text-slate-300"
+        >
+            <strong>{key}</strong>: {String(value)}
+        </div>
+    ))}
+</div>
 
-            <ListSection
-                title="🚀 Recommendations"
-                items={report.recommendations}
-            />
+<div className="rounded-2xl bg-slate-800 p-6 shadow-lg">
+    <h2 className="mb-4 text-2xl font-bold text-white">
+        💡 Business Insights
+    </h2>
+
+    {report.business_insights.map((item, index) => (
+        <div
+            key={index}
+            className="mb-3 rounded-lg bg-slate-900 p-4"
+        >
+            <h3 className="font-bold text-white">
+                {item.title}
+            </h3>
+
+            <p className="text-slate-300">
+                {item.description}
+            </p>
+        </div>
+    ))}
+</div>
+
+<div className="rounded-2xl bg-slate-800 p-6 shadow-lg">
+    <h2 className="mb-4 text-2xl font-bold text-white">
+        🚀 Recommendations
+    </h2>
+
+    {report.recommendations.map((item, index) => (
+        <div
+            key={index}
+            className="mb-3 rounded-lg bg-slate-900 p-4"
+        >
+            <h3 className="font-bold text-white">
+                {item.title}
+            </h3>
+
+            <p className="text-slate-300">
+                {item.description}
+            </p>
+
+            <span className="text-sm text-blue-400">
+                Priority: {item.priority}
+            </span>
+        </div>
+    ))}
+</div>
 
             <Section
                 title="✅ Conclusion"

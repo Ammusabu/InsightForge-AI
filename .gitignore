@@ -1,0 +1,41 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Python cache
+.pytest_cache/
+.mypy_cache/
+
+# Build
+build/
+
+# Local datasets (optional if you don't want to publish them)
+datasets/raw/*
+datasets/processed/*
+datasets/profiles/*
+!datasets/raw/.gitkeep
+!datasets/processed/.gitkeep
+!datasets/profiles/.gitkeep
+
+
+

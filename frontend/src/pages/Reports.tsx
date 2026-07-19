@@ -8,8 +8,7 @@ import ReportViewer from "../components/report/ReportViewer";
 import { generateReport } from "../services/reportService";
 import { useDataset } from "../context/DatasetContext";
 import DownloadPdfButton from "../components/report/DownloadPdfButton";
-import { downloadReportPDF } from "../services/pdfService";
-import PdfReport from "../components/report/PdfReport";
+import { generatePdfReport } from "../services/pdfServiceNew";
 
 
 export default function Reports() {
@@ -17,23 +16,33 @@ export default function Reports() {
 
     const { selectedDatasetId } = useDataset();
 
+    const [loading, setLoading] = useState(false);
+
     async function handleGenerate() {
         if (!selectedDatasetId) {
             alert("Please select a dataset first.");
             return;
         }
-
+    
         try {
-            const aiReport = await generateReport(
-                selectedDatasetId
-            );
+            setLoading(true);
+    
+            const aiReport = await generateReport(selectedDatasetId);
+    
+            console.log("REPORT OBJECT");
             console.log(aiReport);
 
             setReport(aiReport);
-
+    
         } catch (error) {
+    
             console.error(error);
             alert("Failed to generate report.");
+    
+        } finally {
+    
+            setLoading(false);
+    
         }
     }
 
@@ -49,11 +58,13 @@ export default function Reports() {
 
                 <GenerateReportButton
                     onGenerate={handleGenerate}
+                    loading={loading}
                 />
                 {report && (
                 <DownloadPdfButton
                     onDownload={() =>
-                         downloadReportPDF(report)
+                        generatePdfReport(report)
+                         
                     
                         }
                 />
@@ -63,7 +74,7 @@ export default function Reports() {
                 />
 
             </div>
-            {report && (
+            {/* {report && (
     <div
         style={{
             position: "absolute",
@@ -73,7 +84,7 @@ export default function Reports() {
     >
         <PdfReport report={report} />
     </div>
-)}
+)} */}
 
         </DashboardLayout>
     );

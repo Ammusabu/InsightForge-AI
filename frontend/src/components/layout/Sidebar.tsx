@@ -72,7 +72,7 @@ export default function Sidebar() {
     
     }
     return (
-        <aside className="flex h-screen w-72 flex-col border-r border-slate-700 bg-slate-900 p-6">
+        <aside className="h-screen w-72 overflow-y-auto border-r border-slate-700 bg-slate-900 p-6">
 
             <h1 className="mb-8 text-2xl font-bold text-white">
                 InsightForge AI
@@ -107,7 +107,11 @@ export default function Sidebar() {
             label="Reports"
             to="/reports"
         />
-
+        <SidebarItem
+            icon="📊"
+            label="Power BI"
+            to="/powerbi"
+        />
     </SidebarSection>
 
 </div>
@@ -117,7 +121,7 @@ export default function Sidebar() {
             <div className="mb-4 flex items-center justify-between">
 
 <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-    Datasets
+Uploaded Datasets
 </h2>
 
 <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
@@ -127,8 +131,31 @@ export default function Sidebar() {
 </div>
 
             <UploadButton onSelect={handleUpload} />
+            <div className="mt-6">
+    <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        Sample Dataset
+    </h3>
 
-            <div className="mt-6 flex-1 space-y-3 overflow-y-auto">
+    <div className="rounded-xl border border-blue-500/30 bg-slate-800 p-4">
+        <h4 className="font-semibold text-white">
+            🌍 Tourism Analytics Dataset
+        </h4>
+
+        <p className="mt-1 text-xs text-slate-400">
+            6000 Records • 48 Destinations
+        </p>
+
+        <a
+  href="/tourism_sample_dataset.csv"
+  download
+  className="mt-3 inline-block rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
+>
+  ⬇ Download Sample Dataset
+</a>
+    </div>
+</div>
+
+<div className="mt-6 space-y-3 pb-8">
 
             {datasets.map((dataset) => (
 
