@@ -15,7 +15,7 @@ from app.forecasting.router import (
 
 from app.api.v1.filters import router as filters_router
 from app.api.v1.report import router as report_router
-
+from app.api.v1.processing import router as processing_router
 app = FastAPI(
     title=settings.app_name,
     description=settings.app_description,
@@ -26,7 +26,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:5174",
-        "https://nsight-forge-ai.vercel.app",
+        "https://insight-forge-ai.vercel.app",
+        "https://insight-forge-qkyi3i1w6-ammuttya20-2110s-projects.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -88,5 +89,10 @@ app.include_router(
 
 app.include_router(
     filters_router,
+    prefix="/api/v1",
+)
+
+app.include_router(
+    processing_router,
     prefix="/api/v1",
 )
