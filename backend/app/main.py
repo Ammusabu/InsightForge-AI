@@ -24,12 +24,14 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        http://localhost:5173",
+        "http://localhost:5173",
         "http://localhost:5174",
         "https://insight-forge-ai.vercel.app",
-        "https://nsight-forge-ai.vercel.app",  
+        "https://insight-forge-qkyi3i1w6-ammuttya20-2110s-projects.vercel.app",
+        "https://nsight-forge-ai.vercel.app",
         "https://insightforge-ai-pimp.onrender.com",
         "https://insightforge-ai-backend.onrender.com",
+        
     ],
     allow_credentials=True,
     allow_methods=["*"],
